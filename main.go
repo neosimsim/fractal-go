@@ -64,13 +64,13 @@ func isInSet(c complex128) bool {
 }
 
 func do(x, y int, ch chan *cPoint) {
-	time.Sleep(time.Duration(rand.Intn(50)) * 0 * time.Nanosecond)
 	p := new(cPoint)
 	p.x = x
 	p.y = y
 	c := p.toComplex(-2, 1, -1, 1)
 	if isInSet(c) {
 		p.color = color.Black
+		time.Sleep(time.Duration(rand.Intn(50)) * time.Nanosecond)
 		ch <- p
 	} else {
 		ch <- nil
@@ -79,11 +79,20 @@ func do(x, y int, ch chan *cPoint) {
 
 func calcPoint(width, heigt int, out chan cPoint) {
 	ch := make(chan *cPoint, width*height)
-	for y := 0; y < width; y++ {
-		for x := 0; x < width; x++ {
-			go do(x, y, ch)
+	go func() {
+		for y := 0; y < height/2; y++ {
+			for x := 0; x < width; x++ {
+				go do(x, y, ch)
+			}
 		}
-	}
+	}()
+	go func() {
+		for y := height - 1; height/2 <= y; y-- {
+			for x := 0; x < width; x++ {
+				go do(x, y, ch)
+			}
+		}
+	}()
 	for i := 0; i < width*height; i++ {
 		p := <-ch
 		if p != nil {

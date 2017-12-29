@@ -1,6 +1,6 @@
 #!/usr/bin/wish
 
-canvas .demo -width 2048 -height 1024 -background white
+canvas .demo -width 1024 -height 512 -background white
 button .end -text "done" -command exit
 
 pack .demo .end -fill both -expand true
