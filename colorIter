@@ -1,0 +1,18 @@
+#!/usr/bin/awk -f
+
+{
+	iter = $3
+	color = "black"
+
+	if (iter < 10) {
+		color = "light slate blue"
+	} else if (iter < 50) {
+		color = "slate blue"
+	} else if (iter < 70) {
+		color = "dark slate blue"
+	} else if (iter < 100) {
+		color = "midnight blue"
+	}
+
+	print $1","$2","color
+}
