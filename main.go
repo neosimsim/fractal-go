@@ -13,8 +13,8 @@ import (
 )
 
 const (
-	width  = 256
-	height = 256
+	width  = 1024
+	height = 512
 )
 
 func writeImage(img image.Image) {
@@ -55,7 +55,7 @@ func isInSet(c complex128) bool {
 	var z complex128 = 0
 
 	iter := 0
-	maxIter := 1000
+	maxIter := 100
 	for cmplx.Abs(z) < 2 && iter < maxIter {
 		z = cmplx.Pow(z, 2) + c
 		iter++
@@ -64,7 +64,7 @@ func isInSet(c complex128) bool {
 }
 
 func do(x, y int, ch chan *cPoint) {
-	time.Sleep(time.Duration(rand.Intn(50)) * time.Nanosecond)
+	time.Sleep(time.Duration(rand.Intn(50)) * 0 * time.Nanosecond)
 	p := new(cPoint)
 	p.x = x
 	p.y = y
@@ -94,7 +94,6 @@ func calcPoint(width, heigt int, out chan cPoint) {
 }
 
 func main() {
-	const width, height = 256, 256
 	img := image.NewNRGBA(image.Rect(0, 0, width, height))
 	writeImage(img)
 
