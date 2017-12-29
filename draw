@@ -15,9 +15,9 @@ set count 0
 while true {
 	gets stdin row
 	if { [eof stdin] } { break };
-	lassign [regexp -all -inline {\S+} $row] x y color
-	.demo create rec $x $y $x $y
-	if [expr {$count == 500}] {
+	lassign [regexp -all -inline {[^,]+} $row] x y color
+	.demo create line $x $y  [expr $x + 1] [expr $y + 1]  -fill $color
+	if [expr {$count == 15000}] {
 		update idletasks
 		set count 0
 	}
