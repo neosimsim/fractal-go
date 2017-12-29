@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"image"
-	"image/color"
 	"image/png"
 	"log"
 	"math/cmplx"
@@ -34,9 +33,9 @@ func writeImage(img image.Image) {
 }
 
 type cPoint struct {
-	color color.Color
-	x     int
-	y     int
+	iterations int
+	x          int
+	y          int
 }
 
 // Convert the coordination of a point in a Canvac
@@ -51,7 +50,7 @@ func (point *cPoint) toComplex(a, b, c, d float64) complex128 {
 	return complex(re, im)
 }
 
-func isInSet(c complex128) bool {
+func isInSet(c complex128) int {
 	var z complex128 = 0
 
 	iter := 0
@@ -60,21 +59,17 @@ func isInSet(c complex128) bool {
 		z = cmplx.Pow(z, 2) + c
 		iter++
 	}
-	return iter == maxIter
+	return iter
 }
 
 func do(x, y int, ch chan *cPoint) {
+	time.Sleep(time.Duration(rand.Intn(50)) * time.Nanosecond)
 	p := new(cPoint)
 	p.x = x
 	p.y = y
 	c := p.toComplex(-2, 1, -1, 1)
-	if isInSet(c) {
-		p.color = color.Black
-		time.Sleep(time.Duration(rand.Intn(50)) * time.Nanosecond)
-		ch <- p
-	} else {
-		ch <- nil
-	}
+	p.iterations = isInSet(c)
+	ch <- p
 }
 
 func calcPoint(width, heigt int, out chan cPoint) {
@@ -103,17 +98,11 @@ func calcPoint(width, heigt int, out chan cPoint) {
 }
 
 func main() {
-	img := image.NewNRGBA(image.Rect(0, 0, width, height))
-	writeImage(img)
-
 	c := make(chan cPoint)
 
 	go calcPoint(width, height, c)
 
 	for point := range c {
-		img.Set(point.x, point.y, point.color)
-		fmt.Println(point.x, point.y)
+		fmt.Println(point.x, point.y, point.iterations)
 	}
-
-	writeImage(img)
 }
