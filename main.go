@@ -7,6 +7,7 @@ import (
 	"image/png"
 	"log"
 	"math/cmplx"
+	"math/rand"
 	"os"
 	"time"
 )
@@ -54,17 +55,31 @@ func isInSet(c complex128) bool {
 	return cmplx.Abs(c) < 0.8
 }
 
+func do(x, y int, ch chan *cPoint) {
+	time.Sleep(time.Duration(rand.Intn(10)) * time.Millisecond)
+	p := new(cPoint)
+	p.x = x
+	p.y = y
+	c := p.toComplex(-1, 1, -1, 1)
+	if isInSet(c) {
+		p.color = color.Black
+		ch <- p
+	} else {
+		ch <- nil
+	}
+}
+
 func calcPoint(width, heigt int, out chan cPoint) {
+	ch := make(chan *cPoint, width*height)
 	for y := 0; y < width; y++ {
 		for x := 0; x < width; x++ {
-			var clr color.Color
-			p := cPoint{clr, x, y}
-			c := p.toComplex(-1, 1, -1, 1)
-			if isInSet(c) {
-				p.color = color.Black
-				out <- p
-				time.Sleep(5 * time.Millisecond)
-			}
+			go do(x, y, ch)
+		}
+	}
+	for i := 0; i < width*height; i++ {
+		p := <-ch
+		if p != nil {
+			out <- *p
 		}
 	}
 	close(out)
