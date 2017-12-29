@@ -1,0 +1,20 @@
+#!/usr/bin/wish
+
+canvas .demo -width 256 -height 256 -background white
+button .end -text "done" -command exit
+
+pack .demo .end -fill both -expand true
+
+#.demo create rect 25 25 325 75 \
+	#-fill blue
+#.demo create text 175 50 \
+	#-text "Initial String of Text" \
+	#-fill yellow
+
+while true {
+	gets stdin row
+	if { [eof stdin] } { break };
+	lassign [regexp -all -inline {\S+} $row] x y color
+	.demo create rec $x $y $x $y
+	update idletasks
+}

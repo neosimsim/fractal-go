@@ -1,0 +1,15 @@
+#!/usr/bin/wish
+
+  set n 0
+  while {$n<3} {
+    gets stdin row
+    puts $row
+    if { [string equal $row "."] } { break };
+    append message $row "\n"
+	lassign [regexp -all -inline {\S+} $row] x y color
+	puts $x
+	puts $y
+	puts $color
+  }
+  puts "---------"
+  puts $message
