@@ -52,15 +52,23 @@ func (point *cPoint) toComplex(a, b, c, d float64) complex128 {
 }
 
 func isInSet(c complex128) bool {
-	return cmplx.Abs(c) < 0.8
+	var z complex128 = 0
+
+	iter := 0
+	maxIter := 1000
+	for cmplx.Abs(z) < 2 && iter < maxIter {
+		z = cmplx.Pow(z, 2) + c
+		iter++
+	}
+	return iter == maxIter
 }
 
 func do(x, y int, ch chan *cPoint) {
-	time.Sleep(time.Duration(rand.Intn(10)) * time.Millisecond)
+	time.Sleep(time.Duration(rand.Intn(50)) * time.Nanosecond)
 	p := new(cPoint)
 	p.x = x
 	p.y = y
-	c := p.toComplex(-1, 1, -1, 1)
+	c := p.toComplex(-2, 1, -1, 1)
 	if isInSet(c) {
 		p.color = color.Black
 		ch <- p
