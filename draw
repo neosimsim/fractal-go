@@ -1,4 +1,4 @@
-#!/usr/bin/wish
+#!/usr/local/bin/wish8.6
 
 canvas .demo -width 1024 -height 512 -background white
 button .end -text "done" -command exit
@@ -11,10 +11,15 @@ pack .demo .end -fill both -expand true
 	#-text "Initial String of Text" \
 	#-fill yellow
 
+set count 0
 while true {
 	gets stdin row
 	if { [eof stdin] } { break };
 	lassign [regexp -all -inline {\S+} $row] x y color
 	.demo create rec $x $y $x $y
-	update idletasks
+	if [expr {$count == 500}] {
+		update idletasks
+		set count 0
+	}
+	set count [expr {$count + 1}]
 }
