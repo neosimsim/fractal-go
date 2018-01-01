@@ -13,7 +13,7 @@ package main
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// Copyrigth © Alexander Ben Nasrallah 2017 <abn@posteo.de>
+// Copyright © Alexander Ben Nasrallah 2017, 2018 <abn@posteo.de>
 
 import (
 	"fmt"
