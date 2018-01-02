@@ -61,8 +61,6 @@ proc redraw {} {
 		set color [colorForIterations $iter]
 		drawdot $x $y $color
 	}
-
-	update idletasks
 	after 1 redraw
 }
 
