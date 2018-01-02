@@ -30,11 +30,35 @@ proc drawdot {x y color} {
 	.demo create line $x $y  [expr $x + 1] [expr $y + 1]  -fill $color
 }
 
+proc colorForIterations {iter} {
+	if {$iter < 5} {
+		return "midnight blue"
+	} elseif {$iter < 10} {
+		return "dark slate blue"
+	} elseif {$iter < 12} {
+		return "medium slate blue"
+	} elseif {$iter < 15} {
+		return "royal blue"
+	} elseif {$iter < 18} {
+		return "blue"
+	} elseif {$iter < 20} {
+		return "dodger blue"
+	} elseif {$iter < 25} {
+		return "deep sky blue"
+	} elseif {$iter < 30} {
+		return "sky blue"
+	} elseif {$iter < 100} {
+		return "light sky blue"
+	}
+	return "black"
+}
+
 proc redraw {} {
 	for {set i 0} {$i < 15000} {incr i} {
 		gets stdin row
 		if { [eof stdin] } { return };
-		lassign [regexp -all -inline {[^,]+} $row] x y color
+		lassign [regexp -all -inline {\S+} $row] x y iter
+		set color [colorForIterations $iter]
 		drawdot $x $y $color
 	}
 
