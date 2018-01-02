@@ -15,7 +15,7 @@
 #
 # Copyrigth © Alexander Ben Nasrallah 2017, 2018 <abn@posteo.de>
 
-canvas .demo -width 1024 -height 512 -background white
+canvas .demo -width 1150 -height 1050 -background white
 button .end -text "done" -command exit
 
 pack .demo .end -fill both -expand true

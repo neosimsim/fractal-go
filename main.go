@@ -27,8 +27,8 @@ import (
 )
 
 const (
-	width  = 1024
-	height = 512
+	width  = 1155
+	height = 1050
 )
 
 func writeImage(img image.Image) {
@@ -82,7 +82,7 @@ func do(x, y int, ch chan *cPoint) {
 	p := new(cPoint)
 	p.x = x
 	p.y = y
-	c := p.toComplex(-2, 1, -1, 1)
+	c := p.toComplex(-2.04, 0.6, -1.2, 1.2)
 	p.iterations = isInSet(c)
 	ch <- p
 }
