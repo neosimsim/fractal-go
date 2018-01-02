@@ -19,14 +19,26 @@
 	iter = $3
 	color = "black"
 
-	if (iter < 10) {
-		color = "light slate blue"
-	} else if (iter < 50) {
-		color = "slate blue"
-	} else if (iter < 70) {
-		color = "dark slate blue"
-	} else if (iter < 100) {
+	if (iter < 5) {
 		color = "midnight blue"
+	} else if (iter < 10) {
+		color = "dark slate blue"
+	} else if (iter < 12) {
+		color = "medium slate blue"
+	} else if (iter < 15) {
+		color = "royal blue"
+	} else if (iter < 18) {
+		color = "blue"
+	} else if (iter < 20) {
+		color = "dodger blue"
+	} else if (iter < 25) {
+		color = "deep sky blue"
+	} else if (iter < 30) {
+		color = "sky blue"
+	} else if (iter < 100) {
+		color = "light sky blue"
+	} else {
+		color = "black"
 	}
 
 	print $1","$2","color
