@@ -78,12 +78,12 @@ func isInSet(c complex128) int {
 }
 
 func do(x, y int, ch chan *cPoint) {
-	time.Sleep(time.Duration(rand.Intn(50)) * time.Nanosecond)
 	p := new(cPoint)
 	p.x = x
 	p.y = y
 	c := p.toComplex(-2.04, 0.6, -1.2, 1.2)
 	p.iterations = isInSet(c)
+	time.Sleep(time.Duration(rand.Intn(p.iterations)) * time.Nanosecond)
 	ch <- p
 }
 
