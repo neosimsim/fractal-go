@@ -64,9 +64,4 @@ proc redraw {} {
 	after 1 redraw
 }
 
-set count 0
-set fps 30
-set lastdrawtime [expr {[clock milliseconds] + 0}]
-set reading falsd
-
 redraw
