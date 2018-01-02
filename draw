@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyrigth © Alexander Ben Nasrallah 2017 <abn@posteo.de>
+# Copyrigth © Alexander Ben Nasrallah 2017, 2018 <abn@posteo.de>
 
 canvas .demo -width 1024 -height 512 -background white
 button .end -text "done" -command exit
@@ -26,15 +26,25 @@ pack .demo .end -fill both -expand true
 	#-text "Initial String of Text" \
 	#-fill yellow
 
-set count 0
-while true {
-	gets stdin row
-	if { [eof stdin] } { break };
-	lassign [regexp -all -inline {[^,]+} $row] x y color
+proc drawdot {x y color} {
 	.demo create line $x $y  [expr $x + 1] [expr $y + 1]  -fill $color
-	if [expr {$count == 15000}] {
-		update idletasks
-		set count 0
-	}
-	set count [expr {$count + 1}]
 }
+
+proc redraw {} {
+	for {set i 0} {$i < 15000} {incr i} {
+		gets stdin row
+		if { [eof stdin] } { return };
+		lassign [regexp -all -inline {[^,]+} $row] x y color
+		drawdot $x $y $color
+	}
+
+	update idletasks
+	after 1 redraw
+}
+
+set count 0
+set fps 30
+set lastdrawtime [expr {[clock milliseconds] + 0}]
+set reading falsd
+
+redraw
