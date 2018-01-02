@@ -53,15 +53,17 @@ proc colorForIterations {iter} {
 	return "black"
 }
 
-proc redraw {} {
+
+proc redraw {source} {
 	for {set i 0} {$i < 15000} {incr i} {
-		gets stdin row
-		if { [eof stdin] } { return };
+		gets $source row
+		if { [eof $source] } { return };
 		lassign [regexp -all -inline {\S+} $row] x y iter
 		set color [colorForIterations $iter]
 		drawdot $x $y $color
 	}
-	after 1 redraw
+	after 1 redraw $source
 }
 
-redraw
+set points [open "|./fractal-go"]
+redraw $points

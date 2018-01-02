@@ -9,4 +9,4 @@ write the GUI part with `Tcl/Tk`.
 
 To run the drawing call
 
-	go build && ./fractal-go | ./draw
+	go build && ./draw
